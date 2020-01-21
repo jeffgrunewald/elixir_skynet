@@ -13,7 +13,7 @@ Hello and thanks for taking the time to do GetThru's Elixir take-home coding exe
 
 ### Regarding Time
 
-This is supposed to test your skills, not take up all of your free time. If you find yourself spending more than 3-4 hours on it, use your best judgement to find a stopping point and write a short description of what the challenges were.
+This is supposed to test your skills, not take up all of your free time. If you find yourself spending more than 4-6 hours on it, use your best judgement to find a stopping point and write a short description of what the challenges were.
 
 Prioritize the server part of the exercise if you're short on time.
 
