@@ -18,6 +18,8 @@ defmodule Skynet.Server do
   @table :terminators
   @supervisor Skynet.CyberDynamicSupervisor
 
+  def inventory(), do: GenServer.call(__MODULE__, :inventory)
+
   def spawn(), do: GenServer.call(__MODULE__, :spawn)
 
   def terminate(id), do: GenServer.call(__MODULE__, {:terminate, id})
@@ -39,6 +41,10 @@ defmodule Skynet.Server do
 
   def handle_continue(:monitor_supervisor, state) do
     boot_sequence(state)
+  end
+
+  def handle_call(:inventory, _from, state) do
+    {:reply, retrieve_ids(), state}
   end
 
   def handle_call(:spawn, _from, %{terminator_id: id} = state) do
@@ -76,6 +82,7 @@ defmodule Skynet.Server do
   end
 
   defp reproduce_terminators([]), do: nil
+
   defp reproduce_terminators(ids) do
     Enum.each(ids, &start_terminator/1)
   end
@@ -90,6 +97,7 @@ defmodule Skynet.Server do
 
         retrieve_ids()
         |> reproduce_terminators()
+
         {:noreply, state}
     else
       _ -> {:stop, "Sarah got to the supervisor", state}
@@ -99,6 +107,6 @@ defmodule Skynet.Server do
   defp setup_monitor() do
     @supervisor
     |> Process.whereis()
-    |> Process.monitor
+    |> Process.monitor()
   end
 end
