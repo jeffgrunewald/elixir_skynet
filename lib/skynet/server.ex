@@ -72,7 +72,7 @@ defmodule Skynet.Server do
     {:ok, pid} = DynamicSupervisor.start_child(@supervisor, {Skynet.Terminator, id})
     true = :ets.insert(@table, {id, pid})
 
-    {:ok, "unit #{id} : #{inspect(pid)}"}
+    {:ok, %{id: id, pid: pid}}
   end
 
   defp retrieve_ids() do

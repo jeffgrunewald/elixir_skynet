@@ -13,6 +13,12 @@ defmodule SkynetWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", SkynetWeb do
+    pipe_through :api
+
+    resources "/terminators", TerminatorController, only: [:index, :create, :delete]
+  end
+
   scope "/", SkynetWeb do
     pipe_through :browser
 
