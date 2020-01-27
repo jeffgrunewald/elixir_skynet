@@ -33,6 +33,7 @@ defmodule Skynet.MixProject do
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.6.0"},
+      {:placebo, "~> 1.2.2", only: :test},
       {:plug_cowboy, "~> 2.0"},
       {:retry, "~> 0.13.0"}
     ]

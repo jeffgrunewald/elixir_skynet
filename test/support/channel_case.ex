@@ -28,12 +28,6 @@ defmodule SkynetWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Skynet.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Skynet.Repo, {:shared, self()})
-    end
-
     :ok
   end
 end
