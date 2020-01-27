@@ -29,4 +29,15 @@ defmodule Skynet.ServerTest do
     assert {:ok, id} == Skynet.Server.terminate(id)
     assert [] == Skynet.Server.inventory()
   end
+
+  test "recovers from supervisor failure" do
+    for _n <- 0..3 do
+      Skynet.Server.spawn()
+    end
+
+    Process.whereis(Skynet.CyberDynamicSupervisor) |> Process.exit(:kill)
+
+    terminators = Skynet.Server.inventory()
+    assert Enum.count(terminators) > 0
+  end
 end
