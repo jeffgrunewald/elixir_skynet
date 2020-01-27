@@ -23,6 +23,7 @@ defmodule SkynetWeb do
 
       import Plug.Conn
       import SkynetWeb.Gettext
+      import Phoenix.LiveView.Controller
       alias SkynetWeb.Router.Helpers, as: Routes
     end
   end
@@ -42,6 +43,8 @@ defmodule SkynetWeb do
       import SkynetWeb.ErrorHelpers
       import SkynetWeb.Gettext
       alias SkynetWeb.Router.Helpers, as: Routes
+
+      import Phoenix.LiveView.Helpers
     end
   end
 
@@ -50,6 +53,7 @@ defmodule SkynetWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

@@ -61,22 +61,20 @@ select {
   margin: -1rem 0 2rem;
 }
 
-/* Phoenix promo and logo */
-.phx-hero {
+.terminator {
   text-align: center;
-  border-bottom: 1px solid #e3e3e3;
-  background: #eee;
-  border-radius: 6px;
-  padding: 3em;
-  margin-bottom: 3rem;
-  font-weight: 200;
-  font-size: 120%;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  font-weight: 20;
+  font-size: 100%;
+  display: inline-block;
 }
-.phx-hero p {
-  margin: 0;
+.terminator button {
+  background-color: #e10808;
+  border:0.1rem solid #e10808;
 }
-.phx-logo {
-  min-width: 300px;
+.cyberdyne-logo {
+  max-width: 300px;
   margin: 1rem;
   display: block;
 }

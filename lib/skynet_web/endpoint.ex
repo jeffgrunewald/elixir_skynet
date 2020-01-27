@@ -10,9 +10,7 @@ defmodule SkynetWeb.Endpoint do
     signing_salt: "KOegtNCC"
   ]
 
-  socket "/socket", SkynetWeb.UserSocket,
-    websocket: true,
-    longpoll: false
+  socket "/live", Phoenix.LiveView.Socket
 
   # Serve at "/" the static files from "priv/static" directory.
   #

@@ -14,9 +14,15 @@ defmodule SkynetWeb.TerminatorController do
   end
 
   def delete(conn, %{"id" => id}) do
-    case Skynet.Server.terminate(id) do
-      :ok -> json(conn, %{result: "unit #{id} terminated"})
-      _ -> send_resp(conn, 400, "unable to satisfy your request")
-    end
+    response =
+      id
+      |> String.to_integer()
+      |> Skynet.Server.terminate()
+      |> case do
+        {:ok, :invalid_unit} -> "requested unit does not exist"
+        {:ok, id} -> "unit #{id} terminated"
+      end
+
+    json(conn, %{result: response})
   end
 end

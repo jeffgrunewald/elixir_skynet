@@ -17,6 +17,7 @@ defmodule Skynet.Server do
 
   @table :terminators
   @supervisor Skynet.CyberDynamicSupervisor
+  @topic "terminators"
 
   def inventory(), do: GenServer.call(__MODULE__, :inventory)
 
@@ -51,17 +52,27 @@ defmodule Skynet.Server do
     Logger.info("bringing unit #{id} online")
 
     {:ok, result} = start_terminator(id)
+    broadcast_change()
 
     {:reply, result, %{state | terminator_id: id + 1}}
   end
 
   def handle_call({:terminate, id}, _from, state) do
-    [[terminator_pid]] = :ets.match(@table, {id, :"$1"})
-    :ok = DynamicSupervisor.terminate_child(@supervisor, terminator_pid)
-    true = :ets.delete(@table, id)
+    result =
+      case :ets.match(@table, {id, :"$1"}) do
+        [] ->
+          Logger.info("Unit #{id} does not exist")
+          {:ok, :invalid_unit}
+        [[terminator_pid]] ->
+          :ok = DynamicSupervisor.terminate_child(@supervisor, terminator_pid)
+          true = :ets.delete(@table, id)
+          broadcast_change()
 
-    Logger.info("Sarah Connor has terminated unit #{id}")
-    {:reply, :ok, state}
+          Logger.info("Sarah Connor has terminated unit #{id}")
+          {:ok, id}
+      end
+
+    {:reply, result, state}
   end
 
   def handle_info({:DOWN, supervisor_ref, _, _, _}, %{supervisor_ref: supervisor_ref} = state) do
@@ -102,6 +113,10 @@ defmodule Skynet.Server do
     else
       _ -> {:stop, "Sarah got to the supervisor", state}
     end
+  end
+
+  defp broadcast_change() do
+    Phoenix.PubSub.broadcast(Skynet.PubSub, @topic, :inventory_changed)
   end
 
   defp setup_monitor() do
