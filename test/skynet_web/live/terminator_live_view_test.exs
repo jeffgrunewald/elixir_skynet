@@ -17,7 +17,8 @@ defmodule SkynetWeb.TerminatorLiveViewTest do
   test "displays spawned unit", %{conn: conn} do
     {:ok, view, _html} = live(conn, "/")
 
-    assert render_submit(view, "spawn") =~ ~s(<div class="terminator"><button data-confirm="Confirm termination" data-method="get" data-to="#" phx-click="terminate")
+    assert render_submit(view, "spawn") =~
+             ~s(<div class="terminator"><button data-confirm="Confirm termination" data-method="get" data-to="#" phx-click="terminate")
   end
 
   test "removes terminator", %{conn: conn} do

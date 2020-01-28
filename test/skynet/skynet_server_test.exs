@@ -3,10 +3,11 @@ defmodule Skynet.ServerTest do
 
   setup do
     on_exit(fn ->
-      for terminator <- Skynet.Server.inventory do
+      for terminator <- Skynet.Server.inventory() do
         Skynet.Server.terminate(terminator)
       end
     end)
+
     :ok
   end
 

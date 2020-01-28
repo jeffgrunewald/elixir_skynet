@@ -1,9 +1,8 @@
 defmodule SkynetWeb.TerminatorControllerTest do
   use SkynetWeb.ConnCase
 
-
   setup %{conn: conn} do
-    for terminator <- Skynet.Server.inventory do
+    for terminator <- Skynet.Server.inventory() do
       Skynet.Server.terminate(terminator)
     end
 
@@ -38,7 +37,6 @@ defmodule SkynetWeb.TerminatorControllerTest do
     assert %{"unit" => id, "result" => result} = response(conn, 200) |> Jason.decode!()
     assert result == "terminated"
     assert is_integer(id)
-
 
     conn = get(conn, "/api/terminators")
     assert %{"active_units" => []} = response(conn, 200) |> Jason.decode!()

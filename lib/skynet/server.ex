@@ -63,6 +63,7 @@ defmodule Skynet.Server do
         [] ->
           Logger.info("Unit #{id} does not exist")
           {:ok, :invalid_unit}
+
         [[terminator_pid]] ->
           :ok = DynamicSupervisor.terminate_child(@supervisor, terminator_pid)
           true = :ets.delete(@table, id)
