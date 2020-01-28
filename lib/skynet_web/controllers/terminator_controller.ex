@@ -10,7 +10,9 @@ defmodule SkynetWeb.TerminatorController do
   def create(conn, _params) do
     %{id: id, pid: _pid} = Skynet.Server.spawn()
 
-    json(conn, %{result: "unit #{id} online"})
+    conn
+    |> put_status(:created)
+    |> json(%{result: "unit #{id} online"})
   end
 
   def delete(conn, %{"id" => id}) do
