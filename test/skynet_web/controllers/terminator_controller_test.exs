@@ -17,9 +17,9 @@ defmodule SkynetWeb.TerminatorControllerTest do
 
   test "POST /api/terminators", %{conn: conn} do
     conn = post(conn, "/api/terminators")
-    assert %{"result" => result} = response(conn, 201) |> Jason.decode!()
-    assert ["unit", id, "online"] = String.split(result, " ")
-    assert String.match?(id, ~r/[[:digit:]]/)
+    assert %{"unit" => id, "result" => result} = response(conn, 201) |> Jason.decode!()
+    assert result == "activated"
+    assert is_integer(id)
 
     conn = get(conn, "/api/terminators")
     assert %{"active_units" => units} = response(conn, 200) |> Jason.decode!()
@@ -35,9 +35,9 @@ defmodule SkynetWeb.TerminatorControllerTest do
     assert Enum.count(units) > 0
 
     conn = delete(conn, "/api/terminators/#{id}")
-    assert %{"result" => result} = response(conn, 200) |> Jason.decode!()
-    assert ["unit", id, "terminated"] = String.split(result, " ")
-    assert String.match?(id, ~r/[[:digit:]]/)
+    assert %{"unit" => id, "result" => result} = response(conn, 200) |> Jason.decode!()
+    assert result == "terminated"
+    assert is_integer(id)
 
 
     conn = get(conn, "/api/terminators")

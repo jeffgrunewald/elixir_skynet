@@ -12,7 +12,7 @@ defmodule SkynetWeb.TerminatorController do
 
     conn
     |> put_status(:created)
-    |> json(%{result: "unit #{id} online"})
+    |> json(%{unit: id, result: "activated"})
   end
 
   def delete(conn, %{"id" => id}) do
@@ -21,10 +21,10 @@ defmodule SkynetWeb.TerminatorController do
       |> String.to_integer()
       |> Skynet.Server.terminate()
       |> case do
-        {:ok, :invalid_unit} -> "requested unit does not exist"
-        {:ok, id} -> "unit #{id} terminated"
+        {:ok, :invalid_unit} -> %{unit: nil, result: "enoent"}
+        {:ok, id} -> %{unit: id, result: "terminated"}
       end
 
-    json(conn, %{result: response})
+    json(conn, response)
   end
 end
