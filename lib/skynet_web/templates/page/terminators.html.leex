@@ -1,0 +1,15 @@
+<section class="row">
+  <article class="column">
+    <form action="#" phx-submit="spawn">
+      <%= submit "Create terminator", phx_disable_with: "Spawning..." %>
+    </form>
+  </article>
+  <article class="column">
+  <h2>Units in operation</h2>
+  <%= for unit <- @live_units do %>
+  <div class="terminator">
+    <%= button(unit, to: "#", method: :get, data: [confirm: "Confirm termination"], phx_click: "terminate", phx_value_unit: unit) %>
+  </div>
+  <% end %>
+  </article>
+</section>
